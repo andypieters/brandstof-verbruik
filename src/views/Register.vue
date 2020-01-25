@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
@@ -7,9 +7,6 @@
             <v-toolbar-title>Registreren</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-alert v-if="error" color="error" dense outlined>{{
-              error
-            }}</v-alert>
             <v-form v-on:submit.prevent="register">
               <v-text-field
                 label="Naam"
@@ -43,17 +40,20 @@
 </template>
 <script>
 import fb from "../initFirebase";
+import { mapActions } from "vuex";
 const auth = fb.auth();
 
 export default {
   data: () => ({
-    error: null,
     displayName: "",
     email: "",
     password: "",
     passwordConfirm: ""
   }),
   methods: {
+    ...mapActions({
+      addError: "addError"
+    }),
     register() {
       this.error = null;
       auth
@@ -62,7 +62,7 @@ export default {
           data.user.updateProfile({ displayName: this.displayName })
         )
         .then(() => this.$router.push("home"))
-        .catch(error => (this.error = error.message));
+        .catch(error => this.addError(error.message));
     }
   }
 };

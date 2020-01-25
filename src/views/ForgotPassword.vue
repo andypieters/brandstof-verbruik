@@ -7,12 +7,6 @@
             <v-toolbar-title>Wachtwoord vergeten</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-alert v-if="error" outlined dense color="error">
-              {{ error }}
-            </v-alert>
-            <v-alert v-if="message" outlined dense color="success">
-              {{ message }}
-            </v-alert>
             <v-form v-on:submit.prevent="send">
               <v-text-field label="E-mailadres" v-model="email" required />
             </v-form>
@@ -28,26 +22,30 @@
 </template>
 <script>
 import firebase from "../initFirebase";
+import { mapActions } from "vuex";
 const auth = firebase.auth();
 
 export default {
   methods: {
+    ...mapActions({
+      addError: "addError",
+      addSuccess: "addSuccess"
+    }),
     send() {
       this.error = this.message = null;
       auth
         .sendPasswordResetEmail(this.email)
         .then(() => {
-          this.message = "Er is een email verstuurd naar: ".this.email;
+          const message = "Er is een email verstuurd naar: ".this.email;
+          this.addSuccess(message);
           this.email = "";
         })
         .catch(error => {
-          this.error = error.message;
+          this.addError(error.message);
         });
     }
   },
   data: () => ({
-    error: null,
-    message: null,
     email: ""
   })
 };

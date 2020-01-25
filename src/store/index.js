@@ -8,11 +8,15 @@ export default new Vuex.Store({
     user: {
       loggedIn: false,
       data: null
-    }
+    },
+    messages: []
   },
   getters: {
     user(state) {
       return state.user;
+    },
+    messages(state){
+      return state.messages;
     }
   },
   mutations: {
@@ -21,6 +25,12 @@ export default new Vuex.Store({
     },
     SET_USER(state, data) {
       state.user.data = data;
+    },
+    ADD_MESSAGE(state, message) {
+      state.messages.push(message);
+    },
+    DELETE_MESSAGE(state, index){
+      state.messages.splice(index, 1);
     }
   },
   actions: {
@@ -33,6 +43,18 @@ export default new Vuex.Store({
           uid: user.uid
         });
       }
+    },
+    addError({commit}, message){
+      commit("ADD_MESSAGE", {
+        type: 'error',
+        message: message
+      })
+    },
+    addSuccess({commit}, message){
+      commit("ADD_MESSAGE", {
+        type: 'success',
+        message: message
+      })
     }
   },
   modules: {}

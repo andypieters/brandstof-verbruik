@@ -9,9 +9,6 @@
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-alert v-if="error" outlined dense color="error">
-              {{ error }}
-            </v-alert>
             <v-form>
               <v-text-field
                 label="Email"
@@ -28,7 +25,9 @@
                 v-model="password"
               />
             </v-form>
-            <v-btn text small to="forgot-password" color="error" link>Wachtwoord vergeten</v-btn>
+            <v-btn text small to="forgot-password" link
+              >Wachtwoord vergeten</v-btn
+            >
           </v-card-text>
           <v-card-actions>
             <v-btn to="register" color="secundary">Registreren</v-btn>
@@ -53,33 +52,36 @@
   </v-container>
 </template>
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from "firebase/app";
+import "firebase/auth";
 
 import fb from "../initFirebase";
+import { mapActions } from "vuex";
 
 const auth = fb.auth();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 export default {
   methods: {
+    ...mapActions({
+      addEddor: "addError"
+    }),
     login() {
       auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(() => this.$router.push("home"))
-        .catch(error => (this.error = error.message));
+        .catch(error => this.addEddor(error.message));
     },
     loginGoogle() {
       auth
         .signInWithPopup(googleAuthProvider)
         .then(() => this.$router.push("home"))
-        .catch(error => (this.error = error.message));
+        .catch(error => this.addEddor(error.message));
     }
   },
   data: () => ({
     email: "",
-    password: "",
-    error: null
+    password: ""
   })
 };
 </script>
