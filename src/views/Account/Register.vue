@@ -39,9 +39,10 @@
   </v-container>
 </template>
 <script>
-import fb from "../initFirebase";
+import firebase from "@/plugins/firebase";
 import { mapActions } from "vuex";
-const auth = fb.auth();
+
+const auth = firebase.auth();
 
 export default {
   data: () => ({

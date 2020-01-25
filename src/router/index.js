@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import ForgotPassword from '../views/ForgotPassword.vue'
+import Login from '../views/Account/Login.vue'
+import Register from '../views/Account/Register.vue'
+import ForgotPassword from '../views/Account/ForgotPassword.vue'
+
+import Vehicles from '../views/Vehicles/Vehicles.vue'
 
 
 Vue.use(VueRouter)
@@ -15,19 +17,24 @@ const routes = [
     component: Home
   },
   {
-    path: '/login',
+    path: '/account/login',
     name: 'login',
     component: Login
   },
   {
-    path: '/register',
+    path: '/account/register',
     name: 'register',
     component: Register
   },
   {
-    path: '/forgot-password',
+    path: '/account/forgot-password',
     name: 'forgotPassword',
     component: ForgotPassword
+  },
+  {
+    path: '/vehicles/forgot-password',
+    name: 'vehicles',
+    component: Vehicles
   }
 ]
 

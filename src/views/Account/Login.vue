@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height" fluid>
+  <v-container>
     <v-row class="d-flex" align="center" justify="center">
       <v-col class="align-self-start" cols="12" sm="8" md="4">
         <v-card class="elevation-12">
@@ -9,7 +9,7 @@
             </v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form @submit.prevent="login">
               <v-text-field
                 label="Email"
                 name="email"
@@ -55,7 +55,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-import fb from "../initFirebase";
+import fb from "@/plugins/firebase";
 import { mapActions } from "vuex";
 
 const auth = fb.auth();

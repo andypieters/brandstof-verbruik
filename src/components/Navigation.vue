@@ -2,17 +2,19 @@
   <div>
     <v-navigation-drawer app v-model="drawer">
       <v-list dense>
-        <v-list-item link to="profile" v-if="user.loggedIn">
-          {{ user.data.displayName }}
-        </v-list-item>
-        <v-list-item v-else to="login" link>
+        <template v-if="user.loggedIn">
+          <v-list-item>
+            {{ user.data.displayName }}
+          </v-list-item>
+          <v-list-item @click="logout" v-if="user.loggedIn">
+            Uitloggen
+          </v-list-item>
+        </template>
+        <v-list-item v-else to="/account/login" link>
           Inloggen
         </v-list-item>
         <v-list-item @click="$vuetify.theme.dark = !$vuetify.theme.dark" link>
           {{ $vuetify.theme.dark ? "Light mode" : "Dark mode" }}
-        </v-list-item>
-        <v-list-item @click="logout" v-if="user.loggedIn">
-          Uitloggen
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -23,7 +25,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import firebase from "../initFirebase";
+import firebase from "@/plugins/firebase";
 
 const auth = firebase.auth();
 

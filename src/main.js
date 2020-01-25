@@ -4,9 +4,9 @@ import "./registerServiceWorker";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import store from "./store";
-import fb from "./initFirebase";
+import firebase from '@/plugins/firebase'
 
-fb.auth().onAuthStateChanged(user => store.dispatch("fetchUser", user));
+firebase.auth().onAuthStateChanged(user => store.dispatch("fetchUser", user));
 
 Vue.config.productionTip = false;
 

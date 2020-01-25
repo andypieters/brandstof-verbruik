@@ -1,17 +1,6 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-import colors from 'vuetify/lib/util/colors'
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
 
 Vue.use(Vuetify);
 
-export default new Vuetify({
-    theme: {
-        themes:{
-            light: 
-                {
-                    primary: colors.teal,
-                    secondary: colors.pink
-                }
-        }
-    }
-});
+export default new Vuetify();

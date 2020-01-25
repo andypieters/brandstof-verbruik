@@ -4,6 +4,7 @@
       v-for="(message, index) in messages"
       :key="index"
       :type="message.type"
+      v-model="showMessage"
       dismissible
     >
       {{ message.message }}
@@ -11,11 +12,22 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
+  data: ()=>({
+    showMessage: true
+  }),
+  watch:{
+    messages(){
+      this.showMessage = true;
+    }
+  },
   computed: {
     ...mapGetters({
       messages: "messages"
+    }),
+    ...mapActions({
+      deleteMessage: "deleteMessage"
     })
   }
 };

@@ -15,7 +15,7 @@ export default new Vuex.Store({
     user(state) {
       return state.user;
     },
-    messages(state){
+    messages(state) {
       return state.messages;
     }
   },
@@ -27,9 +27,9 @@ export default new Vuex.Store({
       state.user.data = data;
     },
     ADD_MESSAGE(state, message) {
-      state.messages.push(message);
+      state.messages = [message];
     },
-    DELETE_MESSAGE(state, index){
+    DELETE_MESSAGE(state, index) {
       state.messages.splice(index, 1);
     }
   },
@@ -44,17 +44,20 @@ export default new Vuex.Store({
         });
       }
     },
-    addError({commit}, message){
+    addError({ commit }, message) {
       commit("ADD_MESSAGE", {
-        type: 'error',
+        type: "error",
         message: message
-      })
+      });
     },
-    addSuccess({commit}, message){
+    addSuccess({ commit }, message) {
       commit("ADD_MESSAGE", {
-        type: 'success',
+        type: "success",
         message: message
-      })
+      });
+    },
+    deleteMessage({ commit }, index) {
+      commit("DELETE_MESSAGE", index);
     }
   },
   modules: {}
