@@ -1,23 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
-      <v-list dense>
-        <v-list-item @click="logout" v-if="user">
-          {{ user.displayName }}
-        </v-list-item>
-        <v-list-item v-else @click="login" link>
-          Login
-        </v-list-item>
-
-        <v-list-item @click="$vuetify.theme.dark = !$vuetify.theme.dark" link>
-          Toggle dark mode
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar app color="primary" dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-    </v-app-bar>
-
+    <Navigation />
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -25,33 +8,12 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import firebaseConfig from './firebaseConfig'
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-
+import Navigation from "./components/Navigation";
 
 export default {
-  name: 'App',
-  mounted(){
-    auth.onAuthStateChanged((user) => {
-      this.user = user
-    });
+  name: "App",
+  components: {
+    Navigation
   },
-  data: () => ({
-    drawer: false,
-    user: {}
-  }),
-  methods: {
-    login(){
-      auth.signInWithPopup(new firebase.auth.GoogleAuthProvider);
-    },
-    logout(){
-      auth.signOut();
-    }
-  }
 };
 </script>

@@ -1,4 +1,7 @@
-export default {
+import firebase from "firebase/app";
+import 'firebase/auth'
+
+const config = {
   apiKey: "AIzaSyCfOLH6GYSMl5yLp2nozMOhRBqeN6t-sOg",
   authDomain: "brandstof-verbruik.firebaseapp.com",
   databaseURL: "https://brandstof-verbruik.firebaseio.com",
@@ -8,3 +11,4 @@ export default {
   appId: "1:733146071858:web:ae1d75afe7d16a828b0d2b",
   measurementId: "G-964RVCGJNP"
 };
+export default firebase.initializeApp(config);
