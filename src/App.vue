@@ -19,14 +19,12 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig'
@@ -38,10 +36,6 @@ const auth = firebase.auth();
 
 export default {
   name: 'App',
-  
-  components: {
-    HelloWorld,
-  },
   mounted(){
     auth.onAuthStateChanged((user) => {
       this.user = user
