@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import firebase from "../plugins/firebase";
+
+const db = firebase.firestore();
 
 Vue.use(Vuex);
 
@@ -17,6 +20,12 @@ export default new Vuex.Store({
     },
     messages(state) {
       return state.messages;
+    },
+    db(state){
+      if(state.user.loggedIn && state.user.data.uid){
+        return db.doc('users/'+state.user.data.uid);
+      } 
+      return null;
     }
   },
   mutations: {

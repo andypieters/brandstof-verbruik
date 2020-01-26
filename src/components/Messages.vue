@@ -5,6 +5,8 @@
       :key="index"
       :type="message.type"
       v-model="showMessage"
+      border="bottom"
+      colored-border
       dismissible
     >
       {{ message.message }}

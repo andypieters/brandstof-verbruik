@@ -3,7 +3,7 @@
     <v-navigation-drawer app v-model="drawer">
       <v-list dense>
         <template v-if="user.loggedIn">
-          <v-list-item>
+          <v-list-item link to="/">
             {{ user.data.displayName }}
           </v-list-item>
           <v-list-item link to='/vehicles'>

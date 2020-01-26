@@ -1,59 +1,42 @@
 <template>
   <v-container align="center" justify="center">
-    <v-card>
-      <v-toolbar color="primary">
-        <v-toolbar-title>Voertuig toevoegen</v-toolbar-title>
-        <v-spacer />
-        <v-btn @click="toggle = !toggle" outlined color="secondary">
-          <v-icon>
-            {{ toggle ? "mdi-chevron-up" : "mdi-chevron-down" }}
-          </v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card-text v-if="toggle">
-        <VehicleForm v-bind:vehicle="newVehicle"></VehicleForm>
-      </v-card-text>
-      <v-card-actions v-if="toggle">
-        <v-spacer />
-        <v-btn @click='addVehicle'>Toevoegen</v-btn>
-      </v-card-actions>
-    </v-card>
-    <v-card v-for="vehicle in vehicles" :key="vehicle._id">
-      <v-card-title>{{ vehicle.name }}</v-card-title>
-    </v-card>
+    <v-row>
+      <v-col
+        v-for="vehicle in vehiclesSorted"
+        :key="vehicle.id"
+        cols="12"
+        sm="6"
+        md="4"
+      >
+        <VehicleCard v-bind:vehicle="vehicle" />
+      </v-col>
+      <v-col cols="12" sm="6" md="4">
+        <VehicleForm />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
 import VehicleForm from "@/components/VehicleForm";
-import firebase from "../../plugins/firebase";
-import { mapGetters } from "vuex";
-const db = firebase.firestore();
-const users = db.collection("users");
+import VehicleCard from "@/components/VehicleCard";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
-    vehicles: [],
-    toggle: false,
-    newVehicle: {}
+    vehicles: []
   }),
   methods: {
-    addVehicle(){
-      users.doc(this.user.data.uid).collection('vehicles').add(this.newVehicle);
-      this.newVehicle = {};
-      this.toggle = false;
-    }
+    ...mapActions({
+      addError: "addError",
+      addSuccess: "addSuccess"
+    })
   },
   watch: {
-    vehicles(vehicles) {
-      if (vehicles.length === 0) {
-        this.toggle = true;
-      }
-    },
-    user: {
+    db: {
       immediate: true,
-      handler: function(user) {
-        if (user.loggedIn) {
-          this.$bind('vehicles', users.doc(user.data.uid).collection('vehicles'));
+      handler: function(db) {
+        if (db) {
+          this.$bind("vehicles", db.collection("vehicles"));
         } else {
           this.vehicles = [];
         }
@@ -62,11 +45,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: "user"
-    })
+      user: "user",
+      db: "db"
+    }),
+    vehiclesSorted() {
+      let copy = [...this.vehicles];
+      copy.sort((a, b) => {
+        if ((a.isFavorite && b.isFavorite) || (!a.isFavorite && !b.isFavorite))
+          return a.name.localeCompare(b.name);
+        if (a.isFavorite && !b.isFavorite) return -1;
+        if (!a.isFavorite && b.isFavorite) return 1;
+      });
+      return copy;
+    }
   },
   components: {
-    VehicleForm
+    VehicleForm,
+    VehicleCard
   }
 };
 </script>
