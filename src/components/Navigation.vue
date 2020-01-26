@@ -6,6 +6,9 @@
           <v-list-item>
             {{ user.data.displayName }}
           </v-list-item>
+          <v-list-item link to='/vehicles'>
+            Voertuigen
+          </v-list-item>
           <v-list-item @click="logout" v-if="user.loggedIn">
             Uitloggen
           </v-list-item>
